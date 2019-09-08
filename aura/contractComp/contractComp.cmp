@@ -1,0 +1,356 @@
+<aura:component controller="handleContract">
+<!--Handles the ! do init function-->
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<!--Stores the contract_clause_Assignment records!-->
+<aura:attribute name="contractClauseAssignments" type="Contract_to_Clause_Assignment__c[]"/>
+<!--Stores the contract_clauses records!-->
+<aura:attribute name="contractClauses" type="Contract_Clauses__c[]"/>
+<!--Stores table columns for clauses list!-->
+<aura:attribute name="tableCols" type="List" />
+<!--Save table columsn for Contract Clauses Assignment list!-->
+<aura:attribute name="tableCols2" type="List" />   
+<!--Stores the Contract records!-->
+<aura:attribute name="contractAtt" type="Contract" default="{
+                 'sobjectType':'Contract',
+                 'ID':'',
+                 'OwnerName':'',
+                 'Status':'',
+                 'ContractNumber':'',
+                 'StartDate':'',
+                 'AccountName':'',
+                 'EndDate':'',
+                 'CustomerSignedName':'',
+                 'ContractTerm':'',
+                 'CustomerSignedTitle':'',
+                 'OwnerExpirationNotice':'',
+                 'CustomerSignedDate':'',
+                 'CompanySignedName':'',
+                 'Pricebook2Id':'',
+                 'CompanySignedDate':'',
+                 'BillingAddress':'',
+                 'ActivatedDate':'',
+                 'ActivatedByName':'',
+                 'LastModifiedByName':'',
+                 'CreatedByName':'',
+                 'SpecialTerms':'',
+                 'Description':''
+                 }"/>
+
+    
+<!--Code for the first page of the panel!-->
+<div class="slds-tabs_scoped slds-tabs_large">
+<ul class="slds-tabs_scoped__nav" role="tablist">
+<li class="slds-tabs_scoped__item slds-is-active" aura:id="panelListOne" title="Item One" role="presentation">
+<a class="slds-tabs_scoped__link" href="javascript:void(0);" onclick="{!c.panelOne}" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">Details</a>
+</li>
+<li class="slds-tabs_scoped__item" aura:id="panelListTwo" title="Item Two" role="presentation">
+<a class="slds-tabs_scoped__link" href="javascript:void(0);" onclick="{!c.panelTwo}" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item">Related</a>
+</li>
+</ul>
+   
+    
+<!--Code for first tab!-->    
+<div aura:id="tab-scoped-1" class="slds-tabs_scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item"> 
+
+<!--This section is for the contract detail fields!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Contract Owner</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.Owner.Name}"/>
+</div>
+</div>
+    
+<!--This section is for the status field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Status</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.Status}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+<!--This section is for the contract number field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Contract Number</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.ContractNumber}"/>
+</div>
+</div>
+    
+<!--This section is for the start date field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Start Date</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.StartDate}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+    
+    
+    
+    <!--This section is for the Account ID field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Account Name</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.Account.Name}"/>
+</div>
+</div>
+    
+<!--This section is for the End Date field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">End Date</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.EndDate}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+
+    
+ <!--This section is for the Customer Signed ID field!-->
+ <div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Customer Signed Name</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.CustomerSigned.Name}"/>
+</div>
+</div>
+    
+<!--This section is for the contract term field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Contract Term</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.ContractTerm}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+    
+    
+    <!--This section is for the customer signed Title field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Customer Signed Title</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.CustomerSignedTitle}"/>
+</div>
+</div>
+    
+    <!--This section is for the owner expiration notice field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Owner Expiration Notice</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.OwnerExpirationNotice}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+    
+    
+    <!--This section is for the customer signed Date field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Customer Signed Date</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.CustomerSignedDate}"/>
+</div>
+</div>
+    
+    <!--This section is for the company signed ID field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Company Signed Name</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.CompanySigned.Name}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+    
+    <!--This section is for the Billing Address field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Billing Address</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.BillingAddress}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+<!--This section is for the Activated Date field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Activated Date</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.ActivatedDate}"/>
+</div>
+</div>
+
+    
+    <!--This section is for the Activated By field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Activated By Name</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.ActivatedBy.Name}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+
+    <!--This section is for the Last Modified By ID field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_left slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Last Modified By Name</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.LastModifiedBy.Name}"/>
+</div>
+</div>
+
+
+    <!--This section is for the Created By Id field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-float_right slds-col slds-size_1-of-3
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Created By Name</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.CreatedBy.Name}"/>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+    <!--This section is for the Special Terms field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-col
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Special Terms</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.SpecialTerms}"/>
+</div>
+</div>
+<br/>
+<br/>
+
+
+
+
+<!--This section is for the Description field!-->
+<div class="slds-form-element slds-form-element_edit slds-form-element_readonly
+            slds-hint-parent slds-col
+            slds-m-left_x-large slds-m-right_x-large">
+<span class="slds-form-element__label">Description</span>
+<div class="slds-form-element__control">
+<ui:outputText value="{!v.contractAtt.Description}"/>
+</div>
+</div>
+    
+</div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--The second tab for the related list!-->
+<div aura:id="tab-scoped-2" class="slds-tabs_scoped__content" role="tabpanel" aria-labelledby="tab-scoped-2__item">
+<div> 
+    
+<div>
+<!--This button is for the New function!-->
+<lightning:button variant="brand" label="New" onclick="{!c.handleNewButton}"/> 
+<!--This button is for the Add function!-->
+<lightning:button variant="neutral" label="Add" onclick="{!c.handleAddButton}"/> 
+<!--This button is for the Remove function!-->
+<lightning:button variant="destructive" label="Remove" onclick="{!c.handleRemoveButton}"/> 
+</div>    
+
+<!--This is the Div to handle the contract clauses list!-->    
+<div aura:id="contractClauseListDiv" class="slds-tabs__content slds-hide">
+<h3 class="slds-section-title--divider">Contract Clauses</h3>
+<div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+<lightning:datatable data="{! v.contractClauses }"
+columns="{! v.tableCols }"
+keyField="id"
+aura:id="contractClasusesTable"
+/>  
+</div>
+</div>
+
+<!--This is the Div to handle the Contract Clause Assignments List!-->
+<div aura:id="contractClauseAssinmentsListDiv" class="slds-tabs__content slds-hide"> 
+<h3 class="slds-section-title--divider">Contract Clauses Assignments</h3>
+<div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+<lightning:datatable data="{! v.contractClauseAssignments}"
+columns="{! v.tableCols2 }"
+keyField="id"
+aura:id="contractClasusesAssinmentTable"
+/>
+</div>
+</div>
+
+    
+    
+</div>
+</div>
+</div>
+ 
+    
+</aura:component>
